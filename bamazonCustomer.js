@@ -14,6 +14,7 @@ connection.connect(function(err){
 })
 
 function viewAll(){
+    
     connection.query("SELECT * FROM products", function(err,data){
         if (err) throw err;
         for(var i=0; i < data.length; i++){
