@@ -14,7 +14,7 @@ connection.connect(function(err){
 })
 
 function viewAll(){
-    
+
     connection.query("SELECT * FROM products", function(err,data){
         if (err) throw err;
         for(var i=0; i < data.length; i++){
@@ -29,43 +29,55 @@ function startInquirer(){
     connection.query("SELECT * FROM products", function(err,results){
     inquirer.prompt([
         {
-            type: "input",
-            message: "Which product would you like to buy (please indicate by ID)?",
-            name: "product"
-        },
-        {
-            type: "input",
-            message: "How many would you like to purchase?",
-            name: "amount"
+            type: "confirm",
+            message: "Welcome! Would you like to purchase any of the products listed?",
+            name: "confirm"
         }
     ]).then(function(response){
-        var productSelected;
-        for (var i = 0; i < results.length; i++){
-            if (results[i].item_id == response.product){
-                productSelected = results[i];
-                
-            }
-           
-        }
-
-        if (productSelected.stock_quanity >= parseInt(response.amount)){
-            connection.query("UPDATE products SET ? WHERE ?",
-            [{
-                stock_quanity: productSelected.stock_quanity -= response.amount
-            },
-            {
-                item_id: productSelected.item_id
-            }],
-            function (error) {
-                if (error) throw err;
-                var cost = productSelected.price * parseInt(response.amount)
-                console.log(`Total cost is $${cost}\n--------------------------------`)
-                startInquirer()
-            }
-            )
+        if (response.confirm){
+            inquirer.prompt([
+                {
+                    type: "input",
+                    message: "Which product would you like to buy (please indicate by ID)?",
+                    name: "product"
+                },
+                {
+                    type: "input",
+                    message: "How many would you like to purchase?",
+                    name: "amount"
+                }
+            ]).then(function(response){
+                var productSelected;
+                for (var i = 0; i < results.length; i++){
+                    if (results[i].item_id == response.product){
+                        productSelected = results[i];
+                        
+                    }
+                   
+                }
+        
+                if (productSelected.stock_quanity >= parseInt(response.amount)){
+                    connection.query("UPDATE products SET product_sales=?, stock_quanity=? WHERE item_id=?",
+                    [
+                    productSelected.price *= response.amount,
+                    productSelected.stock_quanity -= response.amount,
+                    productSelected.item_id
+                    ],
+                    function (error) {
+                        if (error) throw error;
+                        var cost = productSelected.price * parseInt(response.amount)
+                        console.log(`Total cost is $${cost}\n--------------------------------`)
+                        startInquirer()
+                    }
+                    )
+                } else {
+                    console.log(`Sorry, insufficient quantity of ${productSelected.product_name}\n--------------------------------`)
+                    startInquirer()
+                }
+            })        
         } else {
-            console.log(`Sorry, insufficient quantity of ${productSelected.product_name}\n--------------------------------`)
-            startInquirer()
+            console.log(`No worries! Come again soon!`)
+            connection.end()
         }
     })
     })
