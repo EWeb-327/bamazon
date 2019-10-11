@@ -15,3 +15,5 @@ Managers can view products for sale--including the quantities and total product 
 Supervisors can view products sales by department--which lists departments by ID and name along with total product sales, over head costs and total profit, and create a new department then view all departments by id, name, and over head costs.
 
 All three users have the option to either not move forward or exit the app.
+
+View a quick video run through here: https://drive.google.com/file/d/1ZYuZIPck4lJXwWD5CCEJdOvgVKpUXCj_/view?usp=sharing

@@ -49,7 +49,6 @@ function addInventory(id, num){
         if (err) throw err;
         console.log(data.affectedRows + " product updated!\n")
         viewAll()
-        startInquirer()
     }
     )
 }
@@ -68,7 +67,6 @@ function newProduct(id, name, dep, price, quan){
         if (err) throw err;
         console.log(data.affectedRows + " product added!\n")
         viewAll()
-        startInquirer()
     })
 }
 
@@ -84,13 +82,13 @@ function startInquirer(){
         name: "menu"
         }
     ]).then(function(choice){
-        if(choice.menu == "View Products for Sale"){
+        if(choice.menu === "View Products for Sale"){
             viewAll()
         }
-        if(choice.menu == "View Low Inventory"){
+        if(choice.menu === "View Low Inventory"){
             viewLow()
         }
-        if(choice.menu == "Add Inventory"){
+        if(choice.menu === "Add Inventory"){
             connection.query("SELECT * FROM products", function(err,results){
                 if (err) throw err;
             inquirer.prompt([
@@ -116,7 +114,7 @@ function startInquirer(){
             })    
         })
         }
-        if(choice.menu == "Add New Product"){
+        if(choice.menu === "Add New Product"){
             inquirer.prompt([
                 {
                     type: "input",
@@ -148,7 +146,7 @@ function startInquirer(){
             })
             
         }
-        if(choice.menu == "Exit"){
+        if(choice.menu === "Exit"){
             connection.end()
         }
     })
