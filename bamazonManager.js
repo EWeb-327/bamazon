@@ -17,7 +17,7 @@ function viewAll(){
     connection.query("SELECT * FROM products", function(err,data){
         if (err) throw err;
         for(var i=0; i < data.length; i++){
-        console.log(`\nProduct Id: ${data[i].item_id} | ${data[i].product_name} | Department: ${data[i].department_name} | Price: $${data[i].price} | Quantity: ${data[i].stock_quanity}\n`)
+        console.log(`\nProduct Id: ${data[i].item_id} | ${data[i].product_name} | Department: ${data[i].department_name} | Price: $${data[i].price} | Quantity: ${data[i].stock_quanity} | Product Sales: ${data[i].product_sales}\n`)
         }
         startInquirer()
     })
