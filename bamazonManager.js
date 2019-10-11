@@ -92,6 +92,7 @@ function startInquirer(){
         }
         if(choice.menu == "Add Inventory"){
             connection.query("SELECT * FROM products", function(err,results){
+                if (err) throw err;
             inquirer.prompt([
                 {
                     type: "input",

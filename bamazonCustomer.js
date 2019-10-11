@@ -59,14 +59,13 @@ function startInquirer(){
                 if (productSelected.stock_quanity >= parseInt(response.amount)){
                     connection.query("UPDATE products SET product_sales=?, stock_quanity=? WHERE item_id=?",
                     [
-                    productSelected.price *= response.amount,
-                    productSelected.stock_quanity -= response.amount,
+                    productSelected.price *= parseInt(response.amount),
+                    productSelected.stock_quanity -= parseInt(response.amount),
                     productSelected.item_id
                     ],
                     function (error) {
                         if (error) throw error;
-                        var cost = productSelected.price * parseInt(response.amount)
-                        console.log(`Total cost is $${cost}\n--------------------------------`)
+                        console.log(`Total cost is $${productSelected.price}\n--------------------------------`)
                         startInquirer()
                     }
                     )
